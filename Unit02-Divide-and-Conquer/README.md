@@ -9,13 +9,13 @@ This unit focuses on the **Divide and Conquer** algorithmic design paradigm, whi
 
 | Exp No. | Experiment Name | Description | Status |
 | :---: | :--- | :--- | :---: |
-| **01** | `01_Binary_Search` | Binary Search using Divide and Conquer | Pending |
-| **02** | `02_Max_Min` | Maximum and Minimum using Divide and Conquer | Pending |
-| **03** | `03_Merge_Sort` | Merge Sort algorithm implementation | Pending |
-| **04** | `04_Quick_Sort` | Quick Sort algorithm implementation | Pending |
-| **05** | `05_Heap_Sort` | Heap Sort algorithm implementation | Pending |
-| **06** | `06_Strassen_Matrix_Multiplication` | Strassen's Sub-cubic Matrix Multiplication | Pending |
-| **07** | `07_Sorting_Performance_Comparison` | Application: Empirical comparison of Merge Sort, Quick Sort, and Heap Sort | Pending |
+| **01** | [`01-Binary-Search`](01-Binary-Search/) | Binary Search using Divide and Conquer | Completed |
+| **02** | [`02-Max-Min`](02-Max-Min/) | Maximum and Minimum using Divide and Conquer | Completed |
+| **03** | [`03-Merge-Sort`](03-Merge-Sort/) | Merge Sort algorithm implementation | Completed |
+| **04** | [`04-Quick-Sort`](04-Quick-Sort/) | Quick Sort algorithm implementation | Completed |
+| **05** | [`05-Heap-Sort`](05-Heap-Sort/) | Heap Sort algorithm implementation | Completed |
+| **06** | [`06-Strassen-Matrix-Multiplication`](06-Strassen-Matrix-Multiplication/) | Strassen's Sub-cubic Matrix Multiplication | Completed |
+| **07** | [`07-Sorting-Performance-Comparison`](07-Sorting-Performance-Comparison/) | Application: Empirical comparison of Merge Sort, Quick Sort, and Heap Sort | Completed |
 
 ---
 
@@ -23,11 +23,32 @@ This unit focuses on the **Divide and Conquer** algorithmic design paradigm, whi
 ```text
 Unit02-Divide-and-Conquer/
 ├── README.md
-├── 01_Binary_Search/
-├── 02_Max_Min/
-├── 03_Merge_Sort/
-├── 04_Quick_Sort/
-├── 05_Heap_Sort/
-├── 06_Strassen_Matrix_Multiplication/
-└── 07_Sorting_Performance_Comparison/
+├── 01-Binary-Search/
+│   ├── BinarySearch_DC.java
+│   ├── README.md
+│   └── output/
+├── 02-Max-Min/
+│   ├── MaxMin.java
+│   ├── README.md
+│   └── output/
+├── 03-Merge-Sort/
+│   ├── MergeSort.java
+│   ├── README.md
+│   └── output/
+├── 04-Quick-Sort/
+│   ├── QuickSort.java
+│   ├── README.md
+│   └── output/
+├── 05-Heap-Sort/
+│   ├── HeapSort.java
+│   ├── README.md
+│   └── output/
+├── 06-Strassen-Matrix-Multiplication/
+│   ├── StrassenMatrixMultiplication.java
+│   ├── README.md
+│   └── output/
+└── 07-Sorting-Performance-Comparison/
+    ├── SortingPerformanceComparison.java
+    ├── README.md
+    └── output/
 ```
