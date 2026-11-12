@@ -135,17 +135,14 @@ public class SortingPerformanceComparison {
     }
 
     public static void main(String[] args) {
-        int[] inputSizes = {5000, 10000, 20000, 40000, 80000};
+        int[] inputSizes = { 5000, 10000, 20000, 40000, 80000 };
         Random random = new Random(42);
 
-        System.out.println("==========================================================================");
-        System.out.println("              SORTING PERFORMANCE COMPARISON SYSTEM                       ");
-        System.out.println("       (Comparison of Merge Sort, Quick Sort, and Heap Sort)              ");
-        System.out.println("==========================================================================");
+        System.out.println("SORTING PERFORMANCE COMPARISON SYSTEM");
+        System.out.println("(Comparison of Merge Sort, Quick Sort, and Heap Sort)");
+
         System.out.printf("%-12s | %-16s | %-16s | %-16s | %-8s%n",
                 "Input Size", "Merge Sort (ms)", "Quick Sort (ms)", "Heap Sort (ms)", "Status");
-        System.out.println("--------------------------------------------------------------------------");
-
         for (int size : inputSizes) {
             int[] baseArray = generateRandomArray(size, random);
 
@@ -174,7 +171,5 @@ public class SortingPerformanceComparison {
             System.out.printf("%-12d | %-16.3f | %-16.3f | %-16.3f | %-8s%n",
                     size, mergeTime, quickTime, heapTime, status);
         }
-
-        System.out.println("==========================================================================");
     }
 }
