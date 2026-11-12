@@ -9,11 +9,11 @@ This unit focuses on the **Greedy Method** design paradigm, which constructs sol
 
 | Exp No. | Experiment Name | Description | Status |
 | :---: | :--- | :--- | :---: |
-| **01** | `01-Fractional-Knapsack` | Fractional Knapsack problem using greedy value-to-weight ratio | Pending |
-| **02** | `02-Job-Sequencing-with-Deadlines` | Job Sequencing with Deadlines to maximize total profit | Pending |
-| **03** | `03-Prims-Algorithm` | Minimum Spanning Tree (MST) using Prim's algorithm | Pending |
-| **04** | `04-Kruskals-Algorithm` | Minimum Spanning Tree (MST) using Kruskal's algorithm with Disjoint Sets | Pending |
-| **05** | `05-Minimum-Cost-Network-Design` | Application: Minimum-Cost Network Design System comparing Prim's and Kruskal's algorithms | Pending |
+| **01** | [`01-Fractional-Knapsack`](01-Fractional-Knapsack/) | Fractional Knapsack problem using greedy value-to-weight ratio | Completed |
+| **02** | [`02-Job-Sequencing-with-Deadlines`](02-Job-Sequencing-with-Deadlines/) | Job Sequencing with Deadlines to maximize total profit | Completed |
+| **03** | [`03-Prims-Algorithm`](03-Prims-Algorithm/) | Minimum Spanning Tree (MST) using Prim's algorithm | Completed |
+| **04** | [`04-Kruskals-Algorithm`](04-Kruskals-Algorithm/) | Minimum Spanning Tree (MST) using Kruskal's algorithm with Disjoint Sets | Completed |
+| **05** | [`05-Minimum-Cost-Network-Design`](05-Minimum-Cost-Network-Design/) | Application: Minimum-Cost Network Design System comparing Prim's and Kruskal's algorithms | Completed |
 
 ---
 
@@ -22,8 +22,23 @@ This unit focuses on the **Greedy Method** design paradigm, which constructs sol
 Unit03-Greedy-Method/
 ├── README.md
 ├── 01-Fractional-Knapsack/
+│   ├── FractionalKnapsack.java
+│   ├── README.md
+│   └── output/
 ├── 02-Job-Sequencing-with-Deadlines/
+│   ├── JobSequencing.java
+│   ├── README.md
+│   └── output/
 ├── 03-Prims-Algorithm/
+│   ├── PrimsAlgorithm.java
+│   ├── README.md
+│   └── output/
 ├── 04-Kruskals-Algorithm/
+│   ├── KruskalsAlgorithm.java
+│   ├── README.md
+│   └── output/
 └── 05-Minimum-Cost-Network-Design/
+    ├── NetworkDesignComparison.java
+    ├── README.md
+    └── output/
 ```
