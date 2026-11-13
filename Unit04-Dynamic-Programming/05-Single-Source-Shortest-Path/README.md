@@ -77,7 +77,6 @@ Vertex 4     | 2
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Bellman-Ford Output](output/output.png)
 
 ---
