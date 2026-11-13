@@ -83,7 +83,6 @@ Total Maximized Profit: 142
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Job Sequencing Output](output/output.png)
 
 ---
