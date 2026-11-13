@@ -1,56 +1,89 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SumOfSubsets {
 
-    public static void findSubsets(int[] numbers, int targetSum) {
-        Arrays.sort(numbers);
-        int totalSum = 0;
-        for (int num : numbers) {
-            totalSum += num;
-        }
+    static int[] numbers;
+    static int totalElements;
+    static int requiredSum;
+    static int foundCount = 0;
 
-        System.out.println("SUM OF SUBSETS PROBLEM USING BACKTRACKING");
-        System.out.println("Given Set: " + Arrays.toString(numbers));
-        System.out.println("Target Sum: " + targetSum);
-        System.out.println("-----------------------------------------");
+    // Find subsets having the required sum
+    public static void findSubsets(int position, int sum, ArrayList<Integer> selected) {
 
-        List<Integer> currentSubset = new ArrayList<>();
-        int[] solutionCount = new int[1];
+        // A valid subset is found
+        if (sum == requiredSum) {
+            foundCount++;
 
-        backtrack(numbers, 0, 0, totalSum, targetSum, currentSubset, solutionCount);
-
-        System.out.println("-----------------------------------------");
-        System.out.println("Total Valid Subsets Found: " + solutionCount[0]);
-    }
-
-    private static void backtrack(int[] numbers, int index, int currentSum, int remainingSum, int targetSum,
-                                  List<Integer> currentSubset, int[] solutionCount) {
-        if (currentSum == targetSum) {
-            solutionCount[0]++;
-            System.out.println("Solution " + solutionCount[0] + ": " + currentSubset);
+            System.out.println("Solution " + foundCount + ": " + selected);
             return;
         }
 
-        for (int i = index; i < numbers.length; i++) {
-            if (currentSum + numbers[i] > targetSum) {
-                break;
-            }
-            if (currentSum + remainingSum < targetSum) {
-                return;
-            }
-
-            currentSubset.add(numbers[i]);
-            backtrack(numbers, i + 1, currentSum + numbers[i], remainingSum - numbers[i], targetSum, currentSubset, solutionCount);
-            currentSubset.remove(currentSubset.size() - 1);
+        // Stop searching if all elements are checked
+        // or the current sum exceeds the target
+        if (position == totalElements || sum > requiredSum) {
+            return;
         }
+
+        // Choice 1: Include the current element
+        selected.add(numbers[position]);
+
+        findSubsets(position + 1,
+                    sum + numbers[position],
+                    selected);
+
+        // Backtrack by removing the last selected element
+        selected.remove(selected.size() - 1);
+
+        // Choice 2: Exclude the current element
+        findSubsets(position + 1, sum, selected);
     }
 
     public static void main(String[] args) {
-        int[] numbers = {10, 7, 5, 18, 12, 20, 15};
-        int targetSum = 35;
 
-        findSubsets(numbers, targetSum);
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("How many elements are there? ");
+        totalElements = input.nextInt();
+
+        if (totalElements <= 0) {
+            System.out.println("Please enter a positive number of elements.");
+            input.close();
+            return;
+        }
+
+        numbers = new int[totalElements];
+
+        System.out.println("Enter the elements (positive numbers only):");
+
+        for (int i = 0; i < totalElements; i++) {
+            numbers[i] = input.nextInt();
+
+            if (numbers[i] <= 0) {
+                System.out.println("All elements must be positive.");
+                input.close();
+                return;
+            }
+        }
+
+        System.out.print("Enter the desired sum: ");
+        requiredSum = input.nextInt();
+
+        if (requiredSum <= 0) {
+            System.out.println("Target sum must be positive.");
+            input.close();
+            return;
+        }
+
+        System.out.println("\nSubsets matching the target sum (" + requiredSum + "):");
+
+        findSubsets(0, 0, new ArrayList<>());
+
+        if (foundCount == 0) {
+            System.out.println("No matching subset exists.");
+        } else {
+            System.out.println("\nTotal subsets found: " + foundCount);
+        }
+
+        input.close();
     }
 }
