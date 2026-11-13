@@ -69,7 +69,6 @@ Shortest Distance Matrix between every pair of vertices:
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Floyd-Warshall Output](output/output.png)
 
 ---
