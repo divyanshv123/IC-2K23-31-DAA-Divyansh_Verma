@@ -1,128 +1,189 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class KnapsackBranchAndBound {
 
-    static class Item {
-        int id;
-        double weight;
-        double value;
-        double cost;
+    static class Product {
+        int weight, value;
+        double ratio;
 
-        Item(int id, double weight, double value) {
-            this.id = id;
+        Product(int weight, int value) {
             this.weight = weight;
             this.value = value;
-            this.cost = value / weight;
+            this.ratio = (double) value / weight;
         }
     }
 
-    static class Node {
-        int level;
-        int profit;
-        int weight;
-        double bound;
+    static class State {
+        int level, currentValue, currentWeight;
+        double upperBound;
 
-        Node(int level, int profit, int weight) {
+        State(int level, int value, int weight) {
             this.level = level;
-            this.profit = profit;
-            this.weight = weight;
-            this.bound = 0.0;
+            this.currentValue = value;
+            this.currentWeight = weight;
         }
     }
 
-    public static double computeBound(Node u, int n, int capacity, Item[] items) {
-        if (u.weight >= capacity) {
-            return 0;
+    // Calculate the maximum possible profit from a state
+    public static double findBound(State state, int count,
+                                   int limit, Product[] products) {
+
+        if (state.currentWeight >= limit) {
+            return state.currentWeight == limit
+                    ? state.currentValue : 0;
         }
 
-        double profitBound = u.profit;
-        int j = u.level + 1;
-        double totalWeight = u.weight;
+        double possibleValue = state.currentValue;
+        int usedWeight = state.currentWeight;
+        int index = state.level + 1;
 
-        while (j < n && totalWeight + items[j].weight <= capacity) {
-            totalWeight += items[j].weight;
-            profitBound += items[j].value;
-            j++;
+        // Add complete items while capacity is available
+        while (index < count &&
+               usedWeight + products[index].weight <= limit) {
+
+            usedWeight += products[index].weight;
+            possibleValue += products[index].value;
+            index++;
         }
 
-        if (j < n) {
-            profitBound += (capacity - totalWeight) * items[j].cost;
+        // Add a fraction of the next item for the upper bound
+        if (index < count) {
+            possibleValue +=
+                (limit - usedWeight) * products[index].ratio;
         }
 
-        return profitBound;
+        return possibleValue;
     }
 
-    public static void solveKnapsack(Item[] items, int capacity) {
-        int n = items.length;
+    // Solve the 0/1 Knapsack problem
+    public static int maximizeValue(Product[] products, int capacity) {
 
-        Arrays.sort(items, new Comparator<Item>() {
-            public int compare(Item a, Item b) {
-                return Double.compare(b.cost, a.cost);
+        int count = products.length;
+
+        // Arrange products by profit-to-weight ratio
+        Arrays.sort(products,
+            (a, b) -> Double.compare(b.ratio, a.ratio));
+
+        // Process the state with the highest bound first
+        PriorityQueue<State> pending = new PriorityQueue<>(
+            (a, b) -> Double.compare(b.upperBound, a.upperBound)
+        );
+
+        State initial = new State(-1, 0, 0);
+
+        initial.upperBound = findBound(
+            initial, count, capacity, products
+        );
+
+        pending.add(initial);
+
+        int bestValue = 0;
+
+        while (!pending.isEmpty()) {
+
+            State current = pending.poll();
+
+            // Ignore states that cannot improve the answer
+            if (current.upperBound <= bestValue ||
+                current.level == count - 1) {
+                continue;
             }
-        });
 
-        PriorityQueue<Node> pq = new PriorityQueue<>(new Comparator<Node>() {
-            public int compare(Node a, Node b) {
-                return Double.compare(b.bound, a.bound);
-            }
-        });
+            int nextItem = current.level + 1;
 
-        Node root = new Node(-1, 0, 0);
-        root.bound = computeBound(root, n, capacity, items);
-        pq.add(root);
+            // Option 1: Select the next product
+            State selected = new State(
+                nextItem,
+                current.currentValue + products[nextItem].value,
+                current.currentWeight + products[nextItem].weight
+            );
 
-        int maxProfit = 0;
-        int exploredNodes = 0;
+            if (selected.currentWeight <= capacity) {
 
-        while (!pq.isEmpty()) {
-            Node curr = pq.poll();
-            exploredNodes++;
+                bestValue = Math.max(
+                    bestValue, selected.currentValue
+                );
 
-            if (curr.bound > maxProfit) {
-                int nextLevel = curr.level + 1;
+                selected.upperBound = findBound(
+                    selected, count, capacity, products
+                );
 
-                if (nextLevel < n) {
-                    Node leftChild = new Node(nextLevel, curr.profit + (int) items[nextLevel].value, curr.weight + (int) items[nextLevel].weight);
-
-                    if (leftChild.weight <= capacity && leftChild.profit > maxProfit) {
-                        maxProfit = leftChild.profit;
-                    }
-
-                    leftChild.bound = computeBound(leftChild, n, capacity, items);
-                    if (leftChild.bound > maxProfit) {
-                        pq.add(leftChild);
-                    }
-
-                    Node rightChild = new Node(nextLevel, curr.profit, curr.weight);
-                    rightChild.bound = computeBound(rightChild, n, capacity, items);
-
-                    if (rightChild.bound > maxProfit) {
-                        pq.add(rightChild);
-                    }
+                if (selected.upperBound > bestValue) {
+                    pending.add(selected);
                 }
             }
+
+            // Option 2: Do not select the next product
+            State rejected = new State(
+                nextItem,
+                current.currentValue,
+                current.currentWeight
+            );
+
+            rejected.upperBound = findBound(
+                rejected, count, capacity, products
+            );
+
+            if (rejected.upperBound > bestValue) {
+                pending.add(rejected);
+            }
         }
 
-        System.out.println("0/1 KNAPSACK PROBLEM (BRANCH AND BOUND - LC SEARCH)");
-        System.out.println("Total Items: " + n + ", Knapsack Capacity: " + capacity);
-        System.out.println("---------------------------------------------------");
-        System.out.println("Maximum Profit Achieved: " + maxProfit);
-        System.out.println("Total State-Space Nodes Explored: " + exploredNodes);
-        System.out.println("---------------------------------------------------");
+        return bestValue;
     }
 
     public static void main(String[] args) {
-        Item[] items = {
-            new Item(1, 2, 40),
-            new Item(2, 3.14, 50),
-            new Item(3, 1.98, 100),
-            new Item(4, 5, 95),
-            new Item(5, 3, 30)
-        };
 
-        int capacity = 10;
-        solveKnapsack(items, capacity);
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter total number of items: ");
+        int count = input.nextInt();
+
+        if (count <= 0) {
+            System.out.println("Number of items must be positive.");
+            input.close();
+            return;
+        }
+
+        Product[] products = new Product[count];
+
+        System.out.println("Enter weight and profit for each item:");
+
+        for (int i = 0; i < count; i++) {
+
+            System.out.print("Item " + (i + 1) + ": ");
+
+            int weight = input.nextInt();
+            int profit = input.nextInt();
+
+            if (weight <= 0 || profit < 0) {
+                System.out.println(
+                    "Weight must be positive and profit cannot be negative."
+                );
+                input.close();
+                return;
+            }
+
+            products[i] = new Product(weight, profit);
+        }
+
+        System.out.print("Enter maximum bag capacity: ");
+        int capacity = input.nextInt();
+
+        if (capacity < 0) {
+            System.out.println("Capacity cannot be negative.");
+            input.close();
+            return;
+        }
+
+        int answer = maximizeValue(products, capacity);
+
+        System.out.println("\nKnapsack Result");
+        System.out.println("---------------------------");
+        System.out.println("Number of items : " + count);
+        System.out.println("Bag capacity    : " + capacity);
+        System.out.println("Maximum profit  : " + answer);
+
+        input.close();
     }
 }
