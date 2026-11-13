@@ -41,27 +41,26 @@ Algorithm TabulatedFib(n):
 ---
 
 ## 5. Sample Input
-- $n = 40$
+- Position: `6`
 
 ---
 
 ## 6. Sample Output
 ```text
-FIBONACCI: RECURSION VS. DYNAMIC PROGRAMMING
-Target Term (n): 40
------------------------------------------------------------------
-Method               | Fibonacci Value | Execution Time (ms)| Complexity  
------------------------------------------------------------------
-Memoization (Top-Down)| 102334155       | 0.0078             | O(n)        
-Tabulation (Bottom-Up)| 102334155       | 0.0051             | O(n)        
-Naive Recursion      | 102334155       | 285.4521           | O(2^n)      
------------------------------------------------------------------
+=================================
+     FIBONACCI NUMBER FINDER
+=================================
+Enter the position: 6
+
+---------- RESULT ----------
+Position       : 6
+Fibonacci Value: 8
+----------------------------
 ```
 
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Fibonacci Output](output/output.png)
 
 ---

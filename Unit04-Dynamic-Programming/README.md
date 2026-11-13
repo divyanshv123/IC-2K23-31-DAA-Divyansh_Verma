@@ -24,7 +24,7 @@ This unit focuses on the **Dynamic Programming** design paradigm, which solves c
 Unit04-Dynamic-Programming/
 ├── README.md
 ├── 01-Memoized-Fibonacci/
-│   ├── FibonacciMemoization.java
+│   ├── FibonacciDP.java
 │   ├── README.md
 │   └── output/
 ├── 02-0-1-Knapsack/
