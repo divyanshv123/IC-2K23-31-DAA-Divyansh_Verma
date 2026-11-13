@@ -74,7 +74,6 @@ V3         | 2            | Green
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Graph Coloring Output](output/output.png)
 
 ---

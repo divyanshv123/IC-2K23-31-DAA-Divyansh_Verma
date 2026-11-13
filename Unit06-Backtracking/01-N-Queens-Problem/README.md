@@ -78,7 +78,6 @@ Total Distinct Solutions for 8-Queens: 92
 ---
 
 ## 6. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![N-Queens Output](output/output.png)
 
 ---

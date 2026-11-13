@@ -81,7 +81,6 @@ Solved Sudoku Grid:
 ---
 
 ## 6. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Sudoku Solver Output](output/output.png)
 
 ---

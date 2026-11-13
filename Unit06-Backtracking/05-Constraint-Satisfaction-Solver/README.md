@@ -40,7 +40,6 @@ N      | Theoretical N^N  | Explored Nodes     | Solutions Found  | Time (ms)
 ---
 
 ## 4. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Constraint Satisfaction Output](output/output.png)
 
 ---

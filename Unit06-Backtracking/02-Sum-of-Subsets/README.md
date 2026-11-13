@@ -71,7 +71,6 @@ Total Valid Subsets Found: 4
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Sum of Subsets Output](output/output.png)
 
 ---
