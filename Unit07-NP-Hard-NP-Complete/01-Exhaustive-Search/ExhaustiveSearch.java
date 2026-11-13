@@ -1,64 +1,111 @@
 public class ExhaustiveSearch {
 
-    public static void exhaustiveKnapsack(int[] values, int[] weights, int capacity) {
-        int n = values.length;
-        int totalCombinations = 1 << n;
-        int bestValue = 0;
-        int bestMask = 0;
-        int totalStatesEvaluated = 0;
+    public static void main(String[] args) {
 
-        System.out.println("EXHAUSTIVE (BRUTE-FORCE) SEARCH DEMONSTRATION");
-        System.out.println("Problem: 0/1 Knapsack (Total Items: " + n + ", Capacity: " + capacity + ")");
-        System.out.println("----------------------------------------------------------------------");
-        System.out.printf("%-12s | %-16s | %-12s | %-12s | %-8s%n",
-                "Subset Mask", "Binary Selection", "Total Weight", "Total Value", "Feasible");
-        System.out.println("----------------------------------------------------------------------");
+        int size = 4;
 
-        for (int mask = 0; mask < totalCombinations; mask++) {
-            totalStatesEvaluated++;
-            int currentWeight = 0;
-            int currentValue = 0;
-            StringBuilder binaryRepresentation = new StringBuilder();
+        // Cost of assigning each job to each worker
+        int[][] expenses = {
+            {9, 2, 7, 8},
+            {6, 4, 3, 7},
+            {5, 8, 1, 8},
+            {7, 6, 9, 4}
+        };
 
-            for (int i = 0; i < n; i++) {
-                if ((mask & (1 << i)) != 0) {
-                    currentWeight += weights[i];
-                    currentValue += values[i];
-                    binaryRepresentation.append("1");
-                } else {
-                    binaryRepresentation.append("0");
+        int[] arrangement = {0, 1, 2, 3};
+        int[] finalAssignment = new int[size];
+
+        int minimumCost = Integer.MAX_VALUE;
+        int combinations = 0;
+
+        // Generate and check every possible assignment
+        do {
+            combinations++;
+
+            int currentCost = 0;
+
+            for (int worker = 0; worker < size; worker++) {
+                currentCost += expenses[worker][arrangement[worker]];
+            }
+
+            // Save the assignment if its cost is lower
+            if (currentCost < minimumCost) {
+
+                minimumCost = currentCost;
+
+                for (int i = 0; i < size; i++) {
+                    finalAssignment[i] = arrangement[i];
                 }
             }
 
-            boolean isFeasible = currentWeight <= capacity;
-            String status = isFeasible ? "YES" : "NO (Exceeds)";
+        } while (nextArrangement(arrangement));
 
-            System.out.printf("State %-6d | %-16s | %-12d | %-12d | %-8s%n",
-                    mask, binaryRepresentation.toString(), currentWeight, currentValue, status);
+        // Display the cost matrix
+        System.out.println("\nAssignment Cost Table:");
+        System.out.println("----------------------");
 
-            if (isFeasible && currentValue > bestValue) {
-                bestValue = currentValue;
-                bestMask = mask;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.printf("%4d", expenses[i][j]);
             }
+            System.out.println();
         }
 
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("Total Candidate States Evaluated: " + totalStatesEvaluated);
-        System.out.println("Optimal Feasible Value:           " + bestValue);
-        System.out.print("Selected Item Indices (0-based):  ");
-        for (int i = 0; i < n; i++) {
-            if ((bestMask & (1 << i)) != 0) {
-                System.out.print(i + " ");
-            }
+        // Display the result
+        System.out.println("\nTotal arrangements checked: " + combinations);
+        System.out.println("Minimum assignment cost: " + minimumCost);
+
+        System.out.println("\nFinal Job Allocation:");
+        System.out.println("---------------------");
+
+        for (int i = 0; i < size; i++) {
+            int assignedJob = finalAssignment[i];
+
+            System.out.println(
+                "Worker " + (i + 1) +
+                "  ->  Job " + (assignedJob + 1) +
+                "  | Cost: " + expenses[i][assignedJob]
+            );
         }
-        System.out.println();
     }
 
-    public static void main(String[] args) {
-        int[] values = {20, 30, 50, 70};
-        int[] weights = {2, 5, 10, 5};
-        int capacity = 15;
+    // Generate the next permutation in lexicographical order
+    public static boolean nextArrangement(int[] arr) {
 
-        exhaustiveKnapsack(values, weights, capacity);
+        int i = arr.length - 2;
+
+        while (i >= 0 && arr[i] >= arr[i + 1]) {
+            i--;
+        }
+
+        if (i < 0) {
+            return false;
+        }
+
+        int j = arr.length - 1;
+
+        while (arr[j] <= arr[i]) {
+            j--;
+        }
+
+        // Swap the two elements
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+
+        // Reverse the remaining elements
+        int left = i + 1;
+        int right = arr.length - 1;
+
+        while (left < right) {
+            temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            left++;
+            right--;
+        }
+
+        return true;
     }
 }
