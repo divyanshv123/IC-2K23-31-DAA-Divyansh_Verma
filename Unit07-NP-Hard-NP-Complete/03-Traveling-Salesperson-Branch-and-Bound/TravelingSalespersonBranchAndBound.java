@@ -1,161 +1,115 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class TravelingSalespersonBranchAndBound {
 
-    static final int INF = 999999;
+    static int cityCount;
+    static int[][] travelCost;
+    static boolean[] visited;
 
-    static class Node {
-        List<Integer> path;
-        int[][] reducedMatrix;
-        int cost;
-        int vertex;
-        int level;
+    static int minimumCost = Integer.MAX_VALUE;
+    static int[] bestRoute;
+    static int[] currentRoute;
 
-        Node(int n) {
-            path = new ArrayList<>();
-            reducedMatrix = new int[n][n];
-        }
-    }
+    // Find the minimum cost using Branch and Bound
+    public static void findTour(int currentCity, int level, int totalCost) {
 
-    public static int reduceMatrix(int[][] matrix, int n) {
-        int reductionCost = 0;
+        // All cities have been visited
+        if (level == cityCount) {
 
-        for (int i = 0; i < n; i++) {
-            int rowMin = INF;
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] < rowMin) {
-                    rowMin = matrix[i][j];
+            int finalCost = totalCost + travelCost[currentCity][0];
+
+            // Update the best route
+            if (finalCost < minimumCost) {
+
+                minimumCost = finalCost;
+
+                for (int i = 0; i < cityCount; i++) {
+                    bestRoute[i] = currentRoute[i];
                 }
             }
-            if (rowMin != INF && rowMin > 0) {
-                reductionCost += rowMin;
-                for (int j = 0; j < n; j++) {
-                    if (matrix[i][j] != INF) {
-                        matrix[i][j] -= rowMin;
-                    }
+
+            return;
+        }
+
+        // Try visiting every unvisited city
+        for (int nextCity = 1; nextCity < cityCount; nextCity++) {
+
+            if (!visited[nextCity]) {
+
+                int newCost = totalCost + travelCost[currentCity][nextCity];
+
+                // Bound: stop exploring if current cost is already too high
+                if (newCost >= minimumCost) {
+                    continue;
                 }
+
+                visited[nextCity] = true;
+                currentRoute[level] = nextCity;
+
+                findTour(nextCity, level + 1, newCost);
+
+                // Backtrack
+                visited[nextCity] = false;
             }
         }
-
-        for (int j = 0; j < n; j++) {
-            int colMin = INF;
-            for (int i = 0; i < n; i++) {
-                if (matrix[i][j] < colMin) {
-                    colMin = matrix[i][j];
-                }
-            }
-            if (colMin != INF && colMin > 0) {
-                reductionCost += colMin;
-                for (int i = 0; i < n; i++) {
-                    if (matrix[i][j] != INF) {
-                        matrix[i][j] -= colMin;
-                    }
-                }
-            }
-        }
-
-        return reductionCost;
-    }
-
-    public static Node createNewNode(int[][] parentMatrix, List<Integer> path, int level, int i, int j, int n) {
-        Node node = new Node(n);
-        node.path = new ArrayList<>(path);
-        if (level != 0) {
-            node.path.add(j);
-        }
-
-        for (int r = 0; r < n; r++) {
-            for (int c = 0; c < n; c++) {
-                node.reducedMatrix[r][c] = parentMatrix[r][c];
-            }
-        }
-
-        for (int k = 0; level != 0 && k < n; k++) {
-            node.reducedMatrix[i][k] = INF;
-            node.reducedMatrix[k][j] = INF;
-        }
-        node.reducedMatrix[j][0] = INF;
-
-        node.level = level;
-        node.vertex = j;
-
-        return node;
-    }
-
-    public static void solveTSP(int[][] costMatrix, int n) {
-        PriorityQueue<Node> pq = new PriorityQueue<>(new Comparator<Node>() {
-            public int compare(Node a, Node b) {
-                return Integer.compare(a.cost, b.cost);
-            }
-        });
-
-        List<Integer> initialPath = new ArrayList<>();
-        initialPath.add(0);
-
-        Node root = createNewNode(costMatrix, initialPath, 0, -1, 0, n);
-        root.cost = reduceMatrix(root.reducedMatrix, n);
-        pq.add(root);
-
-        int minCost = INF;
-        List<Integer> optimalPath = null;
-        int exploredNodes = 0;
-
-        while (!pq.isEmpty()) {
-            Node minNode = pq.poll();
-            exploredNodes++;
-
-            if (minNode.cost >= minCost) {
-                continue;
-            }
-
-            int i = minNode.vertex;
-
-            if (minNode.level == n - 1) {
-                minNode.path.add(0);
-                if (minNode.cost < minCost) {
-                    minCost = minNode.cost;
-                    optimalPath = minNode.path;
-                }
-                continue;
-            }
-
-            for (int j = 0; j < n; j++) {
-                if (minNode.reducedMatrix[i][j] != INF) {
-                    Node child = createNewNode(minNode.reducedMatrix, minNode.path, minNode.level + 1, i, j, n);
-                    child.cost = minNode.cost + minNode.reducedMatrix[i][j] + reduceMatrix(child.reducedMatrix, n);
-
-                    if (child.cost < minCost) {
-                        pq.add(child);
-                    }
-                }
-            }
-        }
-
-        System.out.println("TRAVELING SALESPERSON PROBLEM (BRANCH AND BOUND)");
-        System.out.println("Number of Cities: " + n);
-        System.out.println("-------------------------------------------------");
-        System.out.println("Minimum Tour Cost: " + minCost);
-        System.out.print("Optimal Tour:      ");
-        for (int k = 0; k < optimalPath.size(); k++) {
-            System.out.print(optimalPath.get(k) + (k < optimalPath.size() - 1 ? " -> " : ""));
-        }
-        System.out.println();
-        System.out.println("Total State-Space Nodes Explored: " + exploredNodes);
-        System.out.println("-------------------------------------------------");
     }
 
     public static void main(String[] args) {
-        int n = 4;
-        int[][] costMatrix = {
-            {INF, 10, 15, 20},
-            {10, INF, 35, 25},
-            {15, 35, INF, 30},
-            {20, 25, 30, INF}
-        };
 
-        solveTSP(costMatrix, n);
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter total number of cities: ");
+        cityCount = input.nextInt();
+
+        if (cityCount < 2 || cityCount > 15) {
+            System.out.println("Please enter between 2 and 15 cities.");
+            input.close();
+            return;
+        }
+
+        travelCost = new int[cityCount][cityCount];
+
+        System.out.println("Enter the travel cost matrix:");
+
+        for (int i = 0; i < cityCount; i++) {
+            for (int j = 0; j < cityCount; j++) {
+                travelCost[i][j] = input.nextInt();
+
+                if (travelCost[i][j] < 0) {
+                    System.out.println("Negative costs are not supported.");
+                    input.close();
+                    return;
+                }
+            }
+        }
+
+        visited = new boolean[cityCount];
+        bestRoute = new int[cityCount];
+        currentRoute = new int[cityCount];
+
+        // Start the journey from City 1
+        visited[0] = true;
+        currentRoute[0] = 0;
+
+        findTour(0, 1, 0);
+
+        System.out.println("\nTravelling Salesman Result");
+        System.out.println("------------------------------");
+
+        if (minimumCost == Integer.MAX_VALUE) {
+            System.out.println("No valid tour found.");
+        } else {
+
+            System.out.print("Best Route: ");
+
+            for (int i = 0; i < cityCount; i++) {
+                System.out.print("City " + (bestRoute[i] + 1) + " -> ");
+            }
+
+            System.out.println("City 1");
+            System.out.println("Minimum Travelling Cost: " + minimumCost);
+        }
+
+        input.close();
     }
 }
