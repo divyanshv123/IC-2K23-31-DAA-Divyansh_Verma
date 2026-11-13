@@ -1,82 +1,111 @@
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Scanner;
+
+class Task {
+    int jobNo;
+    int dueDate;
+    int earning;
+
+    Task(int jobNo, int dueDate, int earning) {
+        this.jobNo = jobNo;
+        this.dueDate = dueDate;
+        this.earning = earning;
+    }
+}
 
 public class JobSequencing {
 
-    static class Job {
-        String id;
-        int deadline;
-        int profit;
+    static void scheduleJobs(Task[] tasks) {
 
-        Job(String id, int deadline, int profit) {
-            this.id = id;
-            this.deadline = deadline;
-            this.profit = profit;
-        }
-    }
+        Arrays.sort(tasks, (a, b) -> Integer.compare(b.earning, a.earning));
 
-    public static void scheduleJobs(Job[] jobs) {
-        Arrays.sort(jobs, new Comparator<Job>() {
-            public int compare(Job a, Job b) {
-                return b.profit - a.profit;
-            }
-        });
+        int lastDay = 0;
 
-        int maxDeadline = 0;
-        for (int i = 0; i < jobs.length; i++) {
-            if (jobs[i].deadline > maxDeadline) {
-                maxDeadline = jobs[i].deadline;
-            }
+        for (Task t : tasks) {
+            lastDay = Math.max(lastDay, t.dueDate);
         }
 
-        String[] slots = new String[maxDeadline + 1];
-        boolean[] filled = new boolean[maxDeadline + 1];
+        int[] schedule = new int[lastDay + 1];
+        Arrays.fill(schedule, -1);
 
-        int totalProfit = 0;
-        int jobCount = 0;
+        int profit = 0;
+        int completed = 0;
 
-        for (int i = 0; i < jobs.length; i++) {
-            for (int j = jobs[i].deadline; j > 0; j--) {
-                if (!filled[j]) {
-                    filled[j] = true;
-                    slots[j] = jobs[i].id;
-                    totalProfit += jobs[i].profit;
-                    jobCount++;
+        for (Task t : tasks) {
+
+            for (int day = t.dueDate; day >= 1; day--) {
+
+                if (schedule[day] == -1) {
+                    schedule[day] = t.jobNo;
+                    profit += t.earning;
+                    completed++;
                     break;
                 }
             }
         }
 
-        System.out.println("Scheduled Job Sequence:");
-        for (int i = 1; i <= maxDeadline; i++) {
-            if (filled[i]) {
-                System.out.println("Slot " + i + ": " + slots[i]);
+        System.out.println("\n========== JOB SCHEDULE ==========");
+
+        System.out.printf("%-12s %-12s%n", "Time Slot", "Selected Job");
+        System.out.println("----------------------------------");
+
+        for (int day = 1; day <= lastDay; day++) {
+
+            if (schedule[day] != -1) {
+                System.out.printf("%-12d Job %d%n", day, schedule[day]);
+            } else {
+                System.out.printf("%-12d %s%n", day, "Empty");
             }
         }
 
-        System.out.println("\nTotal Jobs Scheduled: " + jobCount);
-        System.out.println("Total Maximized Profit: " + totalProfit);
+        System.out.println("----------------------------------");
+        System.out.println("Jobs completed : " + completed);
+        System.out.println("Total profit   : " + profit);
+        System.out.println("==================================");
     }
 
     public static void main(String[] args) {
-        Job[] jobs = {
-            new Job("J1", 2, 100),
-            new Job("J2", 1, 19),
-            new Job("J3", 2, 27),
-            new Job("J4", 1, 25),
-            new Job("J5", 3, 15)
-        };
 
-        System.out.println("JOB SEQUENCING WITH DEADLINES (GREEDY METHOD)");
-        System.out.println("--------------------------------------------");
+        Scanner sc = new Scanner(System.in);
 
-        System.out.printf("%-6s | %-10s | %-8s%n", "Job ID", "Deadline", "Profit");
-        System.out.println("--------------------------------------------");
-        for (int i = 0; i < jobs.length; i++) {
-            System.out.printf("%-6s | %-10d | %-8d%n", jobs[i].id, jobs[i].deadline, jobs[i].profit);
+        System.out.println("==================================");
+        System.out.println("       JOB SCHEDULING SYSTEM");
+        System.out.println("==================================");
+
+        System.out.print("Enter total number of jobs: ");
+        int count = sc.nextInt();
+
+        if (count <= 0) {
+            System.out.println("Please enter a valid number of jobs.");
+            sc.close();
+            return;
         }
-        System.out.println("--------------------------------------------");
 
-        scheduleJobs(jobs);
+        Task[] tasks = new Task[count];
+
+        System.out.println("\nEnter job details below:");
+
+        for (int i = 0; i < count; i++) {
+
+            System.out.println("\nJob " + (i + 1));
+
+            System.out.print("Enter deadline: ");
+            int deadline = sc.nextInt();
+
+            System.out.print("Enter profit: ");
+            int earning = sc.nextInt();
+
+            if (deadline <= 0 || earning < 0) {
+                System.out.println("Invalid deadline or profit.");
+                sc.close();
+                return;
+            }
+
+            tasks[i] = new Task(i + 1, deadline, earning);
+        }
+
+        scheduleJobs(tasks);
+
+        sc.close();
     }
 }
