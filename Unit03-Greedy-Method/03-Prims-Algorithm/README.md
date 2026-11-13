@@ -90,7 +90,6 @@ Total Minimum Cost: 16
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Prim's Algorithm Output](output/output.png)
 
 ---
