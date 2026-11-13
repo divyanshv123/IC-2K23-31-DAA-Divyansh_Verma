@@ -84,7 +84,6 @@ V5         | 3                | V3
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![BFS Output](output/output.png)
 
 ---

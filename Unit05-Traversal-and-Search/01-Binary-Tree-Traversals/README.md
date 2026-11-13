@@ -80,7 +80,6 @@ Iterative Postorder Traversal: 4 5 2 6 7 3 1
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Binary Tree Traversals Output](output/output.png)
 
 ---

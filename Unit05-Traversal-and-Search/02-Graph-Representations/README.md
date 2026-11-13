@@ -78,7 +78,6 @@ Vertex V4 -> V0 -> V1 -> V3
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Graph Representations Output](output/output.png)
 
 ---

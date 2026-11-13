@@ -45,7 +45,6 @@ Total Independent Subnets: 2
 ---
 
 ## 6. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Network Traversal System Output](output/output.png)
 
 ---

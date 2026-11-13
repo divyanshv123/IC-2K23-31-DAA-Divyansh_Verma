@@ -44,7 +44,6 @@ Vertices   | BFS List (ms)    | DFS List (ms)    | BFS Matrix (ms)  | DFS Matrix
 ---
 
 ## 5. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![BFS vs DFS Output](output/output.png)
 
 ---

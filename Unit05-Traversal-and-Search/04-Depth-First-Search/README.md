@@ -76,7 +76,6 @@ Iterative DFS Traversal: V0 V1 V3 V5 V4 V2
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![DFS Output](output/output.png)
 
 ---
