@@ -64,7 +64,6 @@ Item 2 -> Weight: 20, Value: 100
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![0/1 Knapsack Output](output/output.png)
 
 ---

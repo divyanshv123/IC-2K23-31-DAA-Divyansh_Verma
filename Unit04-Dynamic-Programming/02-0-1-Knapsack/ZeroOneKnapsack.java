@@ -1,43 +1,96 @@
+import java.util.Scanner;
+
 public class ZeroOneKnapsack {
 
-    public static void solveKnapsack(int[] values, int[] weights, int capacity) {
-        int n = values.length;
-        int[][] dp = new int[n + 1][capacity + 1];
+    static int findMaxValue(int[] weight, int[] profit, int capacity, int count) {
 
-        for (int i = 0; i <= n; i++) {
-            for (int w = 0; w <= capacity; w++) {
-                if (i == 0 || w == 0) {
-                    dp[i][w] = 0;
-                } else if (weights[i - 1] <= w) {
-                    dp[i][w] = Math.max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w]);
+        int[][] table = new int[count + 1][capacity + 1];
+
+        for (int i = 1; i <= count; i++) {
+
+            for (int bag = 0; bag <= capacity; bag++) {
+
+                if (weight[i - 1] <= bag) {
+
+                    int include = profit[i - 1] +
+                            table[i - 1][bag - weight[i - 1]];
+
+                    int exclude = table[i - 1][bag];
+
+                    table[i][bag] = Math.max(include, exclude);
+
                 } else {
-                    dp[i][w] = dp[i - 1][w];
+                    table[i][bag] = table[i - 1][bag];
                 }
             }
         }
 
-        int maxProfit = dp[n][capacity];
-        System.out.println("0/1 KNAPSACK OPTIMIZATION (DYNAMIC PROGRAMMING)");
-        System.out.println("Knapsack Capacity: " + capacity);
-        System.out.println("----------------------------------------------");
-        System.out.println("Maximum Profit: " + maxProfit);
-
-        System.out.println("\nSelected Items:");
-        int remainingWeight = capacity;
-        for (int i = n; i > 0 && maxProfit > 0; i--) {
-            if (maxProfit != dp[i - 1][remainingWeight]) {
-                System.out.println("Item " + i + " -> Weight: " + weights[i - 1] + ", Value: " + values[i - 1]);
-                maxProfit -= values[i - 1];
-                remainingWeight -= weights[i - 1];
-            }
-        }
+        return table[count][capacity];
     }
 
     public static void main(String[] args) {
-        int[] values = {60, 100, 120};
-        int[] weights = {10, 20, 30};
-        int capacity = 50;
 
-        solveKnapsack(values, weights, capacity);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("==================================");
+        System.out.println("       KNAPSACK PROBLEM");
+        System.out.println("==================================");
+
+        System.out.print("How many items are available? ");
+        int count = sc.nextInt();
+
+        if (count <= 0) {
+            System.out.println("Please enter a valid number of items.");
+            sc.close();
+            return;
+        }
+
+        int[] weight = new int[count];
+        int[] profit = new int[count];
+
+        System.out.println("\nEnter the weight of each item:");
+
+        for (int i = 0; i < count; i++) {
+            System.out.print("Item " + (i + 1) + ": ");
+            weight[i] = sc.nextInt();
+
+            if (weight[i] <= 0) {
+                System.out.println("Weight must be greater than zero.");
+                sc.close();
+                return;
+            }
+        }
+
+        System.out.println("\nEnter the value of each item:");
+
+        for (int i = 0; i < count; i++) {
+            System.out.print("Item " + (i + 1) + ": ");
+            profit[i] = sc.nextInt();
+
+            if (profit[i] < 0) {
+                System.out.println("Value cannot be negative.");
+                sc.close();
+                return;
+            }
+        }
+
+        System.out.print("\nEnter maximum bag capacity: ");
+        int capacity = sc.nextInt();
+
+        if (capacity < 0) {
+            System.out.println("Capacity cannot be negative.");
+            sc.close();
+            return;
+        }
+
+        int answer = findMaxValue(weight, profit, capacity, count);
+
+        System.out.println("\n========== FINAL RESULT ==========");
+        System.out.println("Number of items  : " + count);
+        System.out.println("Bag capacity     : " + capacity);
+        System.out.println("Maximum value    : " + answer);
+        System.out.println("==================================");
+
+        sc.close();
     }
 }
