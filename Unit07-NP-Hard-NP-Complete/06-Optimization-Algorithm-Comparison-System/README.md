@@ -45,7 +45,6 @@ N      | Strategy         | Explored States  | Optimal Value    | Time (ms)     
 ---
 
 ## 4. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Optimization System Output](output/output.png)
 
 ---
