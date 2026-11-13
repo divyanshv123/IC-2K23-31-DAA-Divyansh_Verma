@@ -78,7 +78,6 @@ Total Minimum Cost: 16
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Kruskal's Algorithm Output](output/output.png)
 
 ---
