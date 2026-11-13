@@ -1,73 +1,99 @@
+import java.util.Scanner;
+
 public class NQueensSolver {
 
-    public static boolean isSafe(int[] board, int row, int col) {
-        for (int i = 0; i < row; i++) {
-            if (board[i] == col) {
-                return false;
-            }
-            if (Math.abs(board[i] - col) == Math.abs(i - row)) {
+    static int size;
+    static int[] queenPosition;
+    static int totalWays = 0;
+    static boolean boardDisplayed = false;
+
+    // Check whether a queen can be placed safely
+    public static boolean checkPosition(int row, int column) {
+
+        for (int previousRow = 0; previousRow < row; previousRow++) {
+
+            int previousColumn = queenPosition[previousRow];
+
+            // Check same column and diagonal positions
+            if (previousColumn == column ||
+                Math.abs(previousColumn - column) == row - previousRow) {
                 return false;
             }
         }
+
         return true;
     }
 
-    public static int solveNQueens(int n, boolean printFirstSolution) {
-        int[] board = new int[n];
-        int[] solutionCount = new int[1];
-        boolean[] printed = new boolean[1];
+    // Display the chessboard
+    public static void displayBoard() {
 
-        placeQueens(0, n, board, solutionCount, printed, printFirstSolution);
-        return solutionCount[0];
-    }
+        for (int row = 0; row < size; row++) {
 
-    private static void placeQueens(int row, int n, int[] board, int[] solutionCount, boolean[] printed, boolean printFirstSolution) {
-        if (row == n) {
-            solutionCount[0]++;
-            if (printFirstSolution && !printed[0]) {
-                printBoard(board, n);
-                printed[0] = true;
-            }
-            return;
-        }
+            for (int column = 0; column < size; column++) {
 
-        for (int col = 0; col < n; col++) {
-            if (isSafe(board, row, col)) {
-                board[row] = col;
-                placeQueens(row + 1, n, board, solutionCount, printed, printFirstSolution);
-            }
-        }
-    }
-
-    public static void printBoard(int[] board, int n) {
-        System.out.println("Board Configuration (First Valid Placement):");
-        for (int i = 0; i < n; i++) {
-            System.out.print("  Row " + i + ": ");
-            for (int j = 0; j < n; j++) {
-                if (board[i] == j) {
-                    System.out.print("[Q] ");
+                if (queenPosition[row] == column) {
+                    System.out.print("Q  ");
                 } else {
-                    System.out.print("[.] ");
+                    System.out.print(".  ");
                 }
             }
+
             System.out.println();
         }
     }
 
+    // Solve the N-Queens problem using backtracking
+    public static void placeQueens(int row) {
+
+        // All queens have been placed successfully
+        if (row == size) {
+
+            totalWays++;
+
+            if (!boardDisplayed) {
+                System.out.println("\nFirst valid arrangement:");
+                displayBoard();
+                boardDisplayed = true;
+            }
+
+            return;
+        }
+
+        // Try placing a queen in every column
+        for (int column = 0; column < size; column++) {
+
+            if (checkPosition(row, column)) {
+
+                queenPosition[row] = column;
+
+                placeQueens(row + 1);
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("N-QUEENS PROBLEM USING BACKTRACKING");
-        System.out.println("==================================================");
 
-        System.out.println("Solving 4-Queens Problem:");
-        int solutions4 = solveNQueens(4, true);
-        System.out.println("Total Distinct Solutions for 4-Queens: " + solutions4);
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n--------------------------------------------------\n");
+        System.out.print("Enter the size of chessboard (1-15): ");
+        size = sc.nextInt();
 
-        System.out.println("Solving 8-Queens Problem:");
-        int solutions8 = solveNQueens(8, true);
-        System.out.println("Total Distinct Solutions for 8-Queens: " + solutions8);
+        if (size < 1 || size > 15) {
+            System.out.println("Invalid board size!");
+            sc.close();
+            return;
+        }
 
-        System.out.println("==================================================");
+        queenPosition = new int[size];
+
+        placeQueens(0);
+
+        if (totalWays == 0) {
+            System.out.println("\nNo valid arrangement exists for N = " + size);
+        } else {
+            System.out.println("\nTotal number of solutions: " + totalWays);
+        }
+
+        sc.close();
     }
 }
