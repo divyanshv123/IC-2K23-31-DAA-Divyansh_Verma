@@ -77,7 +77,6 @@ Maximum Profit Obtained: 240.00
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Fractional Knapsack Output](output/output.png)
 
 ---
