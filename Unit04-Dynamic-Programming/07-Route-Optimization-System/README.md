@@ -68,7 +68,6 @@ Total Distance Saved:       31 km (29.25% efficiency improvement)
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Route Optimization System Output](output/output.png)
 
 ---
