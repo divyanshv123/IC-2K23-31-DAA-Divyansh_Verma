@@ -33,7 +33,6 @@ Cities (N) | DP Cost      | B&B Cost     | DP Time (ms)   | B&B Time (ms)  | Sta
 ---
 
 ## 4. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![TSP Comparison Output](output/output.png)
 
 ---
