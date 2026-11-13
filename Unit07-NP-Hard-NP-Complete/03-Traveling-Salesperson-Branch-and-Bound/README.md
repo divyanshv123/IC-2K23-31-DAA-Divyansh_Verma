@@ -60,19 +60,22 @@ Algorithm TSPBranchAndBound(costMatrix, n):
 
 ## 5. Sample Input & Output
 ```text
-TRAVELING SALESPERSON PROBLEM (BRANCH AND BOUND)
-Number of Cities: 4
--------------------------------------------------
-Minimum Tour Cost: 80
-Optimal Tour:      0 -> 1 -> 3 -> 2 -> 0
-Total State-Space Nodes Explored: 12
--------------------------------------------------
+Enter total number of cities: 4
+Enter the travel cost matrix:
+0 10 15 20
+10 0 35 25
+15 35 0 30
+20 25 30 0
+
+Travelling Salesman Result
+------------------------------
+Best Route: City 1 -> City 2 -> City 4 -> City 3 -> City 1
+Minimum Travelling Cost: 80
 ```
 
 ---
 
 ## 6. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![TSP B&B Output](output/output.png)
 
 ---
