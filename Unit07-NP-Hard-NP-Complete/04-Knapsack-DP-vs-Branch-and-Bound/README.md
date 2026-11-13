@@ -33,7 +33,6 @@ Items(N) | Capacity   | DP Val       | B&B Val      | DP Time(ms)  | B&B Time(ms
 ---
 
 ## 4. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Knapsack Comparison Output](output/output.png)
 
 ---
