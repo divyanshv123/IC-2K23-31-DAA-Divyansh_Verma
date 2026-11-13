@@ -59,18 +59,25 @@ Algorithm KnapsackLCBB(items, W, n):
 
 ## 5. Sample Input & Output
 ```text
-0/1 KNAPSACK PROBLEM (BRANCH AND BOUND - LC SEARCH)
-Total Items: 5, Knapsack Capacity: 10
----------------------------------------------------
-Maximum Profit Achieved: 245
-Total State-Space Nodes Explored: 9
----------------------------------------------------
+Enter total number of items: 5
+Enter weight and profit for each item:
+Item 1: 25 32
+Item 2: 10 35
+Item 3: 12 36
+Item 4: 28 38
+Item 5: 15 39
+Enter maximum bag capacity: 90
+
+Knapsack Result
+---------------------------
+Number of items : 5
+Bag capacity    : 90
+Maximum profit  : 180
 ```
 
 ---
 
 ## 6. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![0/1 Knapsack B&B Output](output/output.png)
 
 ---
