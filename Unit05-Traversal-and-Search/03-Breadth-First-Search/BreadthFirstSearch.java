@@ -1,85 +1,82 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BreadthFirstSearch {
 
-    static class Graph {
-        int vertices;
-        List<List<Integer>> adjList;
+    static final int SIZE = 6;
 
-        Graph(int vertices) {
-            this.vertices = vertices;
-            adjList = new ArrayList<>();
-            for (int i = 0; i < vertices; i++) {
-                adjList.add(new ArrayList<>());
-            }
-        }
+    static ArrayList<Integer>[] network = new ArrayList[SIZE];
 
-        void addEdge(int u, int v) {
-            adjList.get(u).add(v);
-            adjList.get(v).add(u);
-        }
+    // Create a connection between two vertices
+    public static void connect(int first, int second) {
+        network[first].add(second);
+        network[second].add(first);
+    }
 
-        void performBFS(int startVertex) {
-            boolean[] visited = new boolean[vertices];
-            int[] distance = new int[vertices];
-            int[] parent = new int[vertices];
+    public static void traverseBFS(int source) {
 
-            for (int i = 0; i < vertices; i++) {
-                distance[i] = -1;
-                parent[i] = -1;
-            }
+        boolean[] marked = new boolean[SIZE];
+        int[] level = new int[SIZE];
+        int[] previous = new int[SIZE];
 
-            Queue<Integer> queue = new LinkedList<>();
+        Arrays.fill(level, -1);
+        Arrays.fill(previous, -1);
 
-            visited[startVertex] = true;
-            distance[startVertex] = 0;
-            queue.add(startVertex);
+        Queue<Integer> pending = new LinkedList<>();
 
-            System.out.println("BREADTH FIRST SEARCH (BFS) TRAVERSAL");
-            System.out.println("Starting Vertex: V" + startVertex);
-            System.out.println("--------------------------------------------------");
-            System.out.print("BFS Traversal Order: ");
+        marked[source] = true;
+        level[source] = 0;
+        pending.add(source);
 
-            while (!queue.isEmpty()) {
-                int u = queue.poll();
-                System.out.print("V" + u + " ");
+        System.out.print("\nBFS Traversal: ");
 
-                for (int v : adjList.get(u)) {
-                    if (!visited[v]) {
-                        visited[v] = true;
-                        distance[v] = distance[u] + 1;
-                        parent[v] = u;
-                        queue.add(v);
-                    }
+        while (!pending.isEmpty()) {
+
+            int current = pending.poll();
+            System.out.print(current + " ");
+
+            for (int neighbour : network[current]) {
+
+                if (!marked[neighbour]) {
+                    marked[neighbour] = true;
+                    level[neighbour] = level[current] + 1;
+                    previous[neighbour] = current;
+
+                    pending.add(neighbour);
                 }
             }
+        }
 
-            System.out.println("\n--------------------------------------------------");
-            System.out.printf("%-10s | %-16s | %-10s%n", "Vertex", "Shortest Level", "Parent");
-            System.out.println("--------------------------------------------------");
-            for (int i = 0; i < vertices; i++) {
-                String parentStr = (parent[i] == -1) ? "None (Root)" : "V" + parent[i];
-                System.out.printf("V%-9d | %-16d | %-10s%n", i, distance[i], parentStr);
-            }
-            System.out.println("--------------------------------------------------");
+        System.out.println("\n");
+
+        System.out.println("Vertex Details");
+        System.out.println("--------------------------------");
+        System.out.printf("%-12s %-18s %-10s%n",
+                          "Vertex", "Distance", "Parent");
+
+        for (int i = 0; i < SIZE; i++) {
+            System.out.printf("%-12d %-18d %-10d%n",
+                              i, level[i], previous[i]);
         }
     }
 
     public static void main(String[] args) {
-        int vertices = 6;
-        Graph graph = new Graph(vertices);
 
-        graph.addEdge(0, 1);
-        graph.addEdge(0, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 4);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 5);
-        graph.addEdge(4, 5);
+        // Initialize adjacency lists
+        for (int i = 0; i < SIZE; i++) {
+            network[i] = new ArrayList<>();
+        }
 
-        graph.performBFS(0);
+        // Add edges to the graph
+        connect(0, 1);
+        connect(0, 2);
+        connect(1, 3);
+        connect(1, 4);
+        connect(2, 4);
+        connect(3, 5);
+        connect(4, 5);
+
+        int startingVertex = 0;
+
+        traverseBFS(startingVertex);
     }
 }
