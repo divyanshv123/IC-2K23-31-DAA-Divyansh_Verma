@@ -62,7 +62,6 @@ Optimal Path: 0 -> 3 -> 6 -> 7
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Multistage Graph Output](output/output.png)
 
 ---
