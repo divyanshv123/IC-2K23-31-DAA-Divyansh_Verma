@@ -60,7 +60,6 @@ Nodes (V)  | Edges (E)  | Prim's Cost  | Kruskal's Cost | Prim's Time(ms) | Krus
 ---
 
 ## 7. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Network Design Comparison Output](output/output.png)
 
 ---
