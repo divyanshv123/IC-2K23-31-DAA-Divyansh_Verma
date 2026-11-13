@@ -1,90 +1,112 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class DepthFirstSearch {
 
-    static class Graph {
-        int vertices;
-        List<List<Integer>> adjList;
+    static final int TOTAL = 8;
 
-        Graph(int vertices) {
-            this.vertices = vertices;
-            adjList = new ArrayList<>();
-            for (int i = 0; i < vertices; i++) {
-                adjList.add(new ArrayList<>());
+    static ArrayList<Integer>[] graph = new ArrayList[TOTAL];
+    static boolean[] visited = new boolean[TOTAL];
+
+    // Add an undirected edge
+    public static void createLink(int a, int b) {
+        graph[a].add(b);
+        graph[b].add(a);
+    }
+
+    // Reset visited status
+    public static void clearVisited() {
+        Arrays.fill(visited, false);
+    }
+
+    // Recursive DFS traversal
+    public static void recursiveSearch(int vertex) {
+
+        visited[vertex] = true;
+        System.out.print(vertex + " ");
+
+        for (int next : graph[vertex]) {
+            if (!visited[next]) {
+                recursiveSearch(next);
             }
         }
+    }
 
-        void addEdge(int u, int v) {
-            adjList.get(u).add(v);
-            adjList.get(v).add(u);
-        }
+    // Iterative DFS traversal using a stack
+    public static void iterativeSearch(int start) {
 
-        void recursiveDFSUtil(int u, boolean[] visited) {
-            visited[u] = true;
-            System.out.print("V" + u + " ");
+        Stack<Integer> stack = new Stack<>();
+        stack.push(start);
 
-            for (int v : adjList.get(u)) {
-                if (!visited[v]) {
-                    recursiveDFSUtil(v, visited);
+        while (!stack.isEmpty()) {
+
+            int vertex = stack.pop();
+
+            if (visited[vertex]) {
+                continue;
+            }
+
+            visited[vertex] = true;
+            System.out.print(vertex + " ");
+
+            // Reverse order maintains the recursive traversal order
+            for (int i = graph[vertex].size() - 1; i >= 0; i--) {
+
+                int next = graph[vertex].get(i);
+
+                if (!visited[next]) {
+                    stack.push(next);
                 }
             }
-        }
-
-        void performRecursiveDFS(int startVertex) {
-            boolean[] visited = new boolean[vertices];
-            System.out.print("Recursive DFS Traversal: ");
-            recursiveDFSUtil(startVertex, visited);
-            System.out.println();
-        }
-
-        void performIterativeDFS(int startVertex) {
-            boolean[] visited = new boolean[vertices];
-            Stack<Integer> stack = new Stack<>();
-
-            stack.push(startVertex);
-            System.out.print("Iterative DFS Traversal: ");
-
-            while (!stack.isEmpty()) {
-                int u = stack.pop();
-
-                if (!visited[u]) {
-                    visited[u] = true;
-                    System.out.print("V" + u + " ");
-
-                    List<Integer> neighbors = adjList.get(u);
-                    for (int i = neighbors.size() - 1; i >= 0; i--) {
-                        int v = neighbors.get(i);
-                        if (!visited[v]) {
-                            stack.push(v);
-                        }
-                    }
-                }
-            }
-            System.out.println();
         }
     }
 
     public static void main(String[] args) {
-        int vertices = 6;
-        Graph graph = new Graph(vertices);
 
-        graph.addEdge(0, 1);
-        graph.addEdge(0, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 4);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 5);
-        graph.addEdge(4, 5);
+        // Initialize adjacency lists
+        for (int i = 0; i < TOTAL; i++) {
+            graph[i] = new ArrayList<>();
+        }
 
-        System.out.println("DEPTH FIRST SEARCH (DFS) TRAVERSAL");
-        System.out.println("Starting Vertex: V0");
-        System.out.println("--------------------------------------------------");
+        // Create graph connections
+        createLink(0, 1);
+        createLink(0, 2);
+        createLink(1, 3);
+        createLink(1, 4);
+        createLink(2, 4);
+        createLink(3, 5);
+        createLink(4, 5);
+        createLink(6, 7);
 
-        graph.performRecursiveDFS(0);
-        graph.performIterativeDFS(0);
+        // Recursive DFS
+        clearVisited();
 
-        System.out.println("--------------------------------------------------");
+        System.out.print("DFS using Recursion: ");
+        recursiveSearch(0);
+        System.out.println();
+
+        // Iterative DFS
+        clearVisited();
+
+        System.out.print("DFS using Stack: ");
+        iterativeSearch(0);
+        System.out.println();
+
+        // Traverse every connected component
+        clearVisited();
+
+        System.out.println("\nTraversal of all graph components:");
+
+        int groupCount = 0;
+
+        for (int i = 0; i < TOTAL; i++) {
+
+            if (!visited[i]) {
+                groupCount++;
+
+                System.out.print("Component " + groupCount + ": ");
+                recursiveSearch(i);
+                System.out.println();
+            }
+        }
     }
 }
