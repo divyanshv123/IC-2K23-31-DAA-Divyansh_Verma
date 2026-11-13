@@ -1,63 +1,53 @@
 # Lab 01: Exhaustive (Brute-Force) Search Demonstration
 
 ## 1. Problem Statement / Aim
-To formulate and implement an Exhaustive (Brute-Force) Search algorithm in Java for a combinatorial optimization problem (0/1 Knapsack) that systematically evaluates all $2^n$ candidate subset states, demonstrating why exhaustive search becomes computationally intractable as input size scales.
+To formulate and implement an Exhaustive (Brute-Force) Search algorithm in Java for a combinatorial optimization problem (Job Assignment Problem) that systematically evaluates all $n!$ candidate worker-to-job permutations, finding the optimal assignment that minimizes total cost.
 
 ---
 
 ## 2. Algorithm / Approach
-Exhaustive search generates every candidate solution in the search space without applying intelligent bounding or pruning:
+Exhaustive search systematically generates and evaluates all permutations of job allocations:
 
-1. **State Space Enumeration:** For an input of $n$ items, there are $2^n$ distinct subsets.
-2. **Binary Bitmasking:** Use bitmask $mask \in [0, 2^n - 1]$ where bit $i$ indicates whether item $i$ is included ($1$) or excluded ($0$).
-3. **Evaluation:** For each candidate subset, compute total weight and total value.
-4. **Feasibility Check:** If total weight $\le capacity$, check if total value exceeds the current best.
+1. **State Space Enumeration:** For an assignment problem with $n$ workers and $n$ jobs, there are $n!$ possible permutations of assignments.
+2. **Lexicographical Permutation Generation:** Start with initial permutation `[0, 1, ..., n-1]` and generate the next lexicographical permutation using element swapping and suffix reversal.
+3. **Evaluation:** For each candidate arrangement, sum the individual assignment expenses: $\sum_{i=0}^{n-1} expenses[i][arrangement[i]]$.
+4. **Optimal Tracking:** Update the minimum cost and store the optimal assignment arrangement whenever a lower total cost is discovered.
 
 ---
 
 ## 3. Sample Input & Output
 ```text
-EXHAUSTIVE (BRUTE-FORCE) SEARCH DEMONSTRATION
-Problem: 0/1 Knapsack (Total Items: 4, Capacity: 15)
-----------------------------------------------------------------------
-Subset Mask  | Binary Selection | Total Weight | Total Value  | Feasible
-----------------------------------------------------------------------
-State 0      | 0000             | 0            | 0            | YES     
-State 1      | 1000             | 2            | 20           | YES     
-State 2      | 0100             | 5            | 30           | YES     
-State 3      | 1100             | 7            | 50           | YES     
-State 4      | 0010             | 10           | 50           | YES     
-State 5      | 1010             | 12           | 70           | YES     
-State 6      | 0110             | 15           | 80           | YES     
-State 7      | 1110             | 17           | 100          | NO (Exceeds)
-State 8      | 0001             | 5            | 70           | YES     
-State 9      | 1001             | 7            | 90           | YES     
-State 10     | 0101             | 10           | 100          | YES     
-State 11     | 1101             | 12           | 120          | YES     
-State 12     | 0011             | 15           | 120          | YES     
-State 13     | 1011             | 17           | 140          | NO (Exceeds)
-State 14     | 0111             | 20           | 150          | NO (Exceeds)
-State 15     | 1111             | 22           | 170          | NO (Exceeds)
-----------------------------------------------------------------------
-Total Candidate States Evaluated: 16
-Optimal Feasible Value:           120
-Selected Item Indices (0-based):  0 1 3 
+Assignment Cost Table:
+----------------------
+   9   2   7   8
+   6   4   3   7
+   5   8   1   8
+   7   6   9   4
+
+Total arrangements checked: 24
+Minimum assignment cost: 13
+
+Final Job Allocation:
+---------------------
+Worker 1  ->  Job 2  | Cost: 2
+Worker 2  ->  Job 1  | Cost: 6
+Worker 3  ->  Job 3  | Cost: 1
+Worker 4  ->  Job 4  | Cost: 4
 ```
 
 ---
 
 ## 4. Complexity Analysis
-- **Time Complexity:** $\mathcal{O}(n \cdot 2^n)$ — evaluates all $2^n$ configurations, spending $\mathcal{O}(n)$ checking each configuration.
-- **Space Complexity:** $\mathcal{O}(1)$ auxiliary space beyond input arrays.
+- **Time Complexity:** $\mathcal{O}(n \cdot n!)$ — generates all $n!$ permutations, spending $\mathcal{O}(n)$ to evaluate each configuration.
+- **Space Complexity:** $\mathcal{O}(n)$ auxiliary space to store current and best assignment permutations.
 
 ---
 
 ## 5. Output Screenshot
-*(Screenshot will be uploaded upon test execution)*
 ![Exhaustive Search Output](output/output.png)
 
 ---
 
 ## 6. Learning Outcomes
-- Demonstrated exhaustive generation on small $N$ to establish ground-truth benchmarks for comparing Branch & Bound and Dynamic Programming.
-- Observed the exponential growth of state spaces in combinatorial problems.
+- Understood the mechanics of complete permutation generation for combinatorial optimization.
+- Observed the factorial growth $\mathcal{O}(n!)$ of unpruned state spaces in NP-hard assignment problems.
