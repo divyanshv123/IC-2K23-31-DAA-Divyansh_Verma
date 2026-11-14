@@ -9,11 +9,11 @@ This unit covers the fundamentals of algorithmic design, pseudo-code and flowcha
 
 | Exp No. | Experiment Name | Description | Status |
 | :---: | :--- | :--- | :---: |
-| **01** | `01_Array_Operations` | Implementation of basic array operations (insertion, deletion, search, traversal) with input validation | Pending |
-| **02** | `02_Iterative_Binary_Search` | Iterative Binary Search implementation with complexity analysis | Pending |
-| **03** | `03_Recursive_Binary_Search` | Recursive Binary Search implementation with recursion-tree analysis | Pending |
-| **04** | `04_Performance_Analysis` | Execution time measurement across varying input sizes ($n$), log generation, and performance graphs | Pending |
-| **05** | `05_Algorithm_Performance_Analyzer` | Application: CLI analyzer comparing theoretical vs experimental runtime complexity | Pending |
+| **01** | [`01-Basic-Array-Operations`](01-Basic-Array-Operations/) | Implementation of basic array operations (insertion, deletion, linear search, traversal) with input validation | Completed |
+| **02** | [`02-Binary-Search-Iterative`](02-Binary-Search-Iterative/) | Iterative Binary Search implementation with $\mathcal{O}(\log n)$ complexity analysis | Completed |
+| **03** | [`03-Binary-Search-Recursive`](03-Binary-Search-Recursive/) | Recursive Binary Search implementation with divide-and-conquer recursion-tree analysis | Completed |
+| **04** | [`04-Complexity-Analysis`](04-Complexity-Analysis/) | Asymptotic runtime analysis comparing linear, logarithmic, and quadratic complexities | Completed |
+| **05** | [`05-Execution-Time-Measurement`](05-Execution-Time-Measurement/) | Empirical execution time measurement and performance benchmarking across varying input sizes | Completed |
 
 ---
 
@@ -21,9 +21,29 @@ This unit covers the fundamentals of algorithmic design, pseudo-code and flowcha
 ```text
 Unit01-Introduction-Algorithms/
 ├── README.md
-├── 01_Array_Operations/
-├── 02_Iterative_Binary_Search/
-├── 03_Recursive_Binary_Search/
-├── 04_Performance_Analysis/
-└── 05_Algorithm_Performance_Analyzer/
+├── 01-Basic-Array-Operations/
+│   ├── ArrayOperations.java
+│   ├── README.md
+│   └── output/
+│       └── output.png
+├── 02-Binary-Search-Iterative/
+│   ├── BinarySearchIterative.java
+│   ├── README.md
+│   └── output/
+│       └── output.png
+├── 03-Binary-Search-Recursive/
+│   ├── BinarySearchRecursive.java
+│   ├── README.md
+│   └── output/
+│       └── output.png
+├── 04-Complexity-Analysis/
+│   ├── ComplexityAnalysis.java
+│   ├── README.md
+│   └── output/
+│       └── output.png
+└── 05-Execution-Time-Measurement/
+    ├── ExecutionTime.java
+    ├── README.md
+    └── output/
+        └── output.png
 ```
