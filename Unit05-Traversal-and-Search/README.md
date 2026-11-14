@@ -1,7 +1,7 @@
 # Unit 05: Basic Traversal & Search Techniques (CO6)
 
 ## Overview
-This unit focuses on **Tree and Graph Traversal Techniques**, including hierarchical non-linear tree processing, graph representation models, Breadth First Search (BFS), Depth First Search (DFS), comparative empirical benchmarking, and practical network traversal systems.
+This unit focuses on **Tree and Graph Traversal Techniques**, including hierarchical non-linear tree processing, graph representation models, Breadth First Search (BFS), and Depth First Search (DFS).
 
 ---
 
@@ -13,8 +13,6 @@ This unit focuses on **Tree and Graph Traversal Techniques**, including hierarch
 | **02** | [`02-Graph-Representations`](02-Graph-Representations/) | Graph Representation using Adjacency Matrix and Adjacency List | Completed |
 | **03** | [`03-Breadth-First-Search`](03-Breadth-First-Search/) | Breadth First Search (BFS) graph traversal with shortest-level calculation | Completed |
 | **04** | [`04-Depth-First-Search`](04-Depth-First-Search/) | Depth First Search (DFS) graph traversal (Recursive and Iterative) | Completed |
-| **05** | [`05-BFS-DFS-Performance-Comparison`](05-BFS-DFS-Performance-Comparison/) | Performance analysis comparing BFS vs. DFS across Matrix and List structures | Completed |
-| **06** | [`06-Network-Traversal-System`](06-Network-Traversal-System/) | Application: Network Traversal & Exploration System for routing and subnet analysis | Completed |
 
 ---
 
@@ -26,24 +24,20 @@ Unit05-Traversal-and-Search/
 │   ├── BinaryTreeTraversals.java
 │   ├── README.md
 │   └── output/
+│       └── output.png
 ├── 02-Graph-Representations/
 │   ├── GraphRepresentations.java
 │   ├── README.md
 │   └── output/
+│       └── output.png
 ├── 03-Breadth-First-Search/
 │   ├── BreadthFirstSearch.java
 │   ├── README.md
 │   └── output/
-├── 04-Depth-First-Search/
-│   ├── DepthFirstSearch.java
-│   ├── README.md
-│   └── output/
-├── 05-BFS-DFS-Performance-Comparison/
-│   ├── BfsDfsComparison.java
-│   ├── README.md
-│   └── output/
-└── 06-Network-Traversal-System/
-    ├── NetworkTraversalSystem.java
+│       └── output.png
+└── 04-Depth-First-Search/
+    ├── DepthFirstSearch.java
     ├── README.md
     └── output/
+        └── output.png
 ```
